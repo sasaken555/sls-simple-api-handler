@@ -1,0 +1,35 @@
+service: simple-api-handler # NOTE: update this with your service name
+
+provider:
+  name: openwhisk
+  runtime: nodejs:8
+
+functions:
+  createCat:
+    handler: handler.createCat
+    name: "cats/createCat"
+    events:
+      - http:
+          method: POST
+          path: /v1/cats
+          resp: http
+  getCat:
+    handler: handler.getCat
+    name: "cats/getCat"
+    events:
+      - http:
+          method: GET
+          path: /v1/cats/{id}
+          resp: http
+
+plugins:
+  - serverless-openwhisk
+
+resources:
+  packages:
+    cats:
+      bind:
+        - service:
+            name: cloudantnosqldb
+            instance: [REPLACE WITH YOUR INSTANCE NAME]
+            key: [REPLACE WITH YOUR INSTANCE's CREDENTIAL]
