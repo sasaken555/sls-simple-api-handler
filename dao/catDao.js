@@ -36,7 +36,19 @@ function select(connectionInfo, key) {
   return getClient(connectionInfo.url).get(key);
 }
 
+/**
+ * キーに合致するネコをDBから削除する.
+ * @param {String} connectionInfo.url 接続URL
+ * @param {String} key._id ドキュメントID
+ * @param {String} key.rev ドキュメントリビジョン
+ * @returns {Promise}
+ */
+function remove(connectionInfo, key) {
+  return getClient(connectionInfo.url).destroy(key._id, key.rev);
+}
+
 module.exports = {
   insert: insert,
-  select: select
+  select: select,
+  remove: remove
 };

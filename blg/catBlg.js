@@ -25,7 +25,7 @@ function create(params) {
     catDao
       .insert(params.__bx_creds.cloudantnosqldb, cat)
       .then(body => {
-        resolve(createResponse(200, body));
+        resolve(createResponse(201, body));
       })
       .catch(err => {
         reject(createResponse(err.statusCode, { message: err.message }));
@@ -36,7 +36,7 @@ function create(params) {
 /**
  * キーに合致するネコをDBから取得する.
  * @param {String} params.__bx_creds.url 接続URL
- * @param {String} params.key 名称
+ * @param {String} params.id キー
  * @returns {Object} Promise for the Cloudant result
  */
 function getOne(params) {
@@ -45,6 +45,69 @@ function getOne(params) {
     params.id = params.__ow_path.split("/")[4];
     catDao
       .select(params.__bx_creds.cloudantnosqldb, params.id)
+      .then(body => {
+        resolve(createResponse(200, body));
+      })
+      .catch(err => {
+        const errBody = {
+          _id: params.id,
+          message: err.message
+        };
+        reject(createResponse(err.statusCode, errBody));
+      });
+  });
+}
+
+/**
+ * キーに合致するネコを更新する.
+ * @param {String} params.__bx_creds.url 接続URL
+ * @param {String} params.id キー
+ * @param {String} params.name 名称
+ * @param {String} params.color 色
+ * @returns {Object} Promise for the Cloudant result
+ */
+function update(params) {
+  return new Promise(function(resolve, reject) {
+    params.id = params.__ow_path.split("/")[4];
+    catDao
+      .select(params.__bx_creds.cloudantnosqldb, params.id)
+      .then(data => {
+        if (params.name) {
+          data.name = params.name;
+        }
+        if (params.color) {
+          data.name = params.color;
+        }
+        return catDao.insert(params.__bx_creds.cloudantnosqldb, data);
+      })
+      .then(body => {
+        resolve(createResponse(200, body));
+      })
+      .catch(err => {
+        const errBody = {
+          _id: params.id,
+          message: err.message
+        };
+        reject(createResponse(err.statusCode, errBody));
+      });
+  });
+}
+
+/**
+ * キーに合致するネコを削除する.
+ * @param {String} params.__bx_creds.url 接続URL
+ * @param {String} params.id キー
+ * @returns {Object} Promise for the Cloudant result
+ */
+function deleteOne(params) {
+  return new Promise(function(resolve, reject) {
+    params.id = params.__ow_path.split("/")[4];
+    catDao
+      .select(params.__bx_creds.cloudantnosqldb, params.id)
+      .then(data => {
+        const key = { _id: data._id, rev: data.rev };
+        return catDao.remove(params.__bx_creds.cloudantnosqldb, key);
+      })
       .then(body => {
         resolve(createResponse(200, body));
       })
@@ -73,5 +136,7 @@ function createResponse(statusCode, body) {
 
 module.exports = {
   create: create,
-  getOne: getOne
+  getOne: getOne,
+  update: update,
+  deleteOne: deleteOne
 };

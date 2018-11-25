@@ -21,6 +21,22 @@ functions:
           method: GET
           path: /v1/cats/{id}
           resp: http
+  updateCat:
+    handler: handler.updateCat
+    name: "cats/updateCat"
+    events:
+      - http:
+          method: PUT
+          path: /v1/cats/{id}
+          resp: http
+  deleteCat:
+    handler: handler.deleteCat
+    name: "cats/deleteCat"
+    events:
+      - http:
+          method: DELETE
+          path: /v1/cats/{id}
+          resp: http
 
 plugins:
   - serverless-openwhisk
