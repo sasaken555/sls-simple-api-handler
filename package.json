@@ -7,7 +7,11 @@
     "serverless",
     "openwhisk"
   ],
+  "scripts": {
+    "test": "jest"
+  },
   "devDependencies": {
+    "jest": "^23.6.0",
     "serverless-openwhisk": ">=0.13.0"
   },
   "dependencies": {

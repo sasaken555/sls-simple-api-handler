@@ -6,7 +6,7 @@ provider:
 
 functions:
   createCat:
-    handler: handler.createCat
+    handler: src/handler.createCat
     name: "cats/createCat"
     events:
       - http:
@@ -14,7 +14,7 @@ functions:
           path: /v1/cats
           resp: http
   getCat:
-    handler: handler.getCat
+    handler: src/handler.getCat
     name: "cats/getCat"
     events:
       - http:
@@ -22,7 +22,7 @@ functions:
           path: /v1/cats/{id}
           resp: http
   updateCat:
-    handler: handler.updateCat
+    handler: src/handler.updateCat
     name: "cats/updateCat"
     events:
       - http:
@@ -30,7 +30,7 @@ functions:
           path: /v1/cats/{id}
           resp: http
   deleteCat:
-    handler: handler.deleteCat
+    handler: src/handler.deleteCat
     name: "cats/deleteCat"
     events:
       - http:
