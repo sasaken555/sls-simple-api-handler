@@ -20,7 +20,7 @@ function createCat(params) {
 /**
  * キーに合致するネコを取得する.
  * @param {String} params.__bx_creds.url 接続URL
- * @param {String} params.id 名称
+ * @param {String} params.id ID
  * @returns {Object} Promise for the Cloudant result
  */
 function getCat(params) {
@@ -30,7 +30,6 @@ function getCat(params) {
 /**
  * キーに合致するネコを更新する.
  * @param {String} params.__bx_creds.url 接続URL
- * @param {String} params.id 名称
  * @param {String} params.name 名称
  * @param {String} params.color 色
  * @returns {Object} Promise for the Cloudant result
@@ -42,7 +41,7 @@ function updateCat(params) {
 /**
  * キーに合致するネコを取得する.
  * @param {String} params.__bx_creds.url 接続URL
- * @param {String} params.id 名称
+ * @param {String} params.id ID
  * @returns {Object} Promise for the Cloudant result
  */
 function deleteCat(params) {

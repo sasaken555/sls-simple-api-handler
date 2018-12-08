@@ -12,7 +12,7 @@ const uuid = require("uuid/v4");
  * @param {String} params.__bx_creds.url 接続URL
  * @param {String} params.name 名称
  * @param {String} params.color 色
- * @returns {Object} Promise for the Cloudant result
+ * @returns {Promise} Promise for the Cloudant result
  */
 function create(params) {
   return new Promise(function(resolve, reject) {
@@ -37,7 +37,7 @@ function create(params) {
  * キーに合致するネコをDBから取得する.
  * @param {String} params.__bx_creds.url 接続URL
  * @param {String} params.id キー
- * @returns {Object} Promise for the Cloudant result
+ * @returns {Promise} Promise for the Cloudant result
  */
 function getOne(params) {
   return new Promise(function(resolve, reject) {
@@ -64,7 +64,7 @@ function getOne(params) {
  * @param {String} params.id キー
  * @param {String} params.name 名称
  * @param {String} params.color 色
- * @returns {Object} Promise for the Cloudant result
+ * @returns {Promise} Promise for the Cloudant result
  */
 function update(params) {
   return new Promise(function(resolve, reject) {
@@ -76,7 +76,7 @@ function update(params) {
           data.name = params.name;
         }
         if (params.color) {
-          data.name = params.color;
+          data.color = params.color;
         }
         return catDao.insert(params.__bx_creds.cloudantnosqldb, data);
       })
@@ -97,7 +97,7 @@ function update(params) {
  * キーに合致するネコを削除する.
  * @param {String} params.__bx_creds.url 接続URL
  * @param {String} params.id キー
- * @returns {Object} Promise for the Cloudant result
+ * @returns {Promise} Promise for the Cloudant result
  */
 function deleteOne(params) {
   return new Promise(function(resolve, reject) {
@@ -105,7 +105,7 @@ function deleteOne(params) {
     catDao
       .select(params.__bx_creds.cloudantnosqldb, params.id)
       .then(data => {
-        const key = { _id: data._id, rev: data.rev };
+        const key = { _id: data._id, rev: data._rev };
         return catDao.remove(params.__bx_creds.cloudantnosqldb, key);
       })
       .then(body => {
