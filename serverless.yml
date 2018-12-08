@@ -2,7 +2,7 @@ service: simple-api-handler # NOTE: update this with your service name
 
 provider:
   name: openwhisk
-  runtime: nodejs:8
+  runtime: nodejs:10
 
 functions:
   createCat:
@@ -47,5 +47,5 @@ resources:
       bind:
         - service:
             name: cloudantnosqldb
-            instance: [REPLACE WITH YOUR INSTANCE NAME]
-            key: [REPLACE WITH YOUR INSTANCE's CREDENTIAL]
+            instance: { { instanceName } }
+            key: { { creadentialKey } }
